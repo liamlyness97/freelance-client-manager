@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/ui/Sidebar";
 import Topbar from "@/components/ui/TopBar";
+import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -25,15 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             lang="en"
             className={`${geistSans.variable} ${geistMono.variable} text-zinc-900 h-full antialiased `}
         >
-            <body className="min-h-full flex flex-col">
-                <div className="flex flex-1 justify-between">
-                    <Sidebar />
-                    <main className="flex flex-col w-full">
-                        <Topbar />
-                        <div className="p-8">{children}</div>
-                    </main>
-                </div>
-            </body>
+            <body className="min-h-full flex flex-col">{children}</body>
         </html>
     );
 }
