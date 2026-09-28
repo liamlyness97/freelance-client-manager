@@ -1,7 +1,13 @@
 import Image from "next/image";
 import LogoutButton from "@/components/auth/LogoutButton";
+import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
+import Link from "next/link";
 
-export default function Sidebar() {
+export default async function Sidebar() {
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
     return (
         <div className="w-1/6 bg-white h-screen shrink-0 flex flex-col gap-12 border-r border-lightNavy/15">
             {/* TODO: Revisit this */}
@@ -30,6 +36,18 @@ export default function Sidebar() {
                     Invoices
                 </p>
             </div>
+            {session?.user.role === "admin" && (
+                <div className="px-8 ">
+                    <div className="text-lg pt-8 font-medium flex flex-col gap-4 border-t border-lightNavy/15">
+                        <Link
+                            href={"/clients"}
+                            className="hover:text-lightNavy duration-200 cursor-pointer"
+                        >
+                            Clients
+                        </Link>
+                    </div>
+                </div>
+            )}
             <div className="justify-self-end justify-end h-full py-6 text-lg font-medium flex flex-col gap-2 px-8">
                 <p>Settings</p>
                 <LogoutButton />

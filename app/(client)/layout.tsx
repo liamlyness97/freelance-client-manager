@@ -1,15 +1,9 @@
 import Sidebar from "@/components/ui/Sidebar";
 import TopBar from "@/components/ui/TopBar";
-import { auth } from "@/lib/auth/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { requireUser } from "@/lib/auth/session";
 
 export default async function DashboardLayout({ children }: LayoutProps<"/">) {
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
-
-    if (!session?.user.id) redirect("/login");
+    await requireUser();
 
     return (
         <div className="flex flex-1 justify-between">

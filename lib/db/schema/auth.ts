@@ -1,13 +1,18 @@
 import { sql } from "drizzle-orm";
 import { relations } from "drizzle-orm/_relations";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { company } from "./companies";
 
 export const user = sqliteTable("user", {
     id: text("id").primaryKey(),
     name: text("name").notNull(),
     email: text("email").notNull().unique(),
     emailVerified: integer("email_verified", { mode: "boolean" }),
+    role: text("role", { enum: ["admin", "client"] }).default("client"),
     image: text("image"),
+    companyId: text("company_id").references(() => company.id, {
+        onDelete: "cascade",
+    }),
     createdAt: integer("created_at", { mode: "timestamp" })
         .notNull()
         .default(sql`(unixepoch())`),

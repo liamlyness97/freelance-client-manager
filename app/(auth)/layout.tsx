@@ -1,13 +1,12 @@
 import { auth } from "@/lib/auth/auth";
+import { getCurrentUser } from "@/lib/auth/session";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function AuthLayout({ children }: LayoutProps<"/">) {
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
+    const user = await getCurrentUser();
 
-    if (session?.user.id) redirect("/dashboard");
+    if (user) redirect("/dashboard");
 
     return <>{children}</>;
 }
