@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LogoutButton from "@/components/auth/LogoutButton";
 
 export default function Sidebar() {
     return (
@@ -31,7 +32,7 @@ export default function Sidebar() {
             </div>
             <div className="justify-self-end justify-end h-full py-6 text-lg font-medium flex flex-col gap-2 px-8">
                 <p>Settings</p>
-                <p>Logout</p>
+                <LogoutButton />
             </div>
         </div>
     );

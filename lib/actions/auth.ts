@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -86,4 +87,10 @@ export async function Login(
     }
 
     redirect("/dashboard");
+}
+
+export async function Logout(formData: FormData) {
+    await auth.api.signOut({
+        headers: await headers(),
+    });
 }
