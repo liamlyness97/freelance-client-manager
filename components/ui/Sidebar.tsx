@@ -3,7 +3,7 @@ import LogoutButton from "@/components/auth/LogoutButton";
 
 export default function Sidebar() {
     return (
-        <div className="w-1/6 bg-white h-screen shrink-0 flex flex-col gap-12 border-r border-borderColour">
+        <div className="w-1/6 bg-white h-screen shrink-0 flex flex-col gap-12 border-r border-lightNavy/15">
             {/* TODO: Revisit this */}
             <div className="py-6 px-8 flex items-center gap-4">
                 <div className="w-8 h-8  object-contain">
