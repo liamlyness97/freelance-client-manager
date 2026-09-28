@@ -1,7 +1,5 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-    serverExternalPackages: ["@tursodatabase/database"],
-};
+const nextConfig: NextConfig = {};
 
 export default nextConfig;

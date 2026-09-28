@@ -1,11 +1,11 @@
-import { register, type RegisterState } from "@/lib/actions/auth";
+import { Register, type RegisterState } from "@/lib/actions/auth";
 import { useActionState } from "react";
 
 const initialState: RegisterState = {};
 
 export default function SignUpForm() {
     const [state, formAction, isPending] = useActionState(
-        register,
+        Register,
         initialState,
     );
 
@@ -22,7 +22,11 @@ export default function SignUpForm() {
                     placeholder="Enter full name"
                     className="bg-background w-full font-normal text-foreground p-2 mt-0.5 rounded-md"
                 />
-                {state.errors?.name && <p>{state.errors.name[0]}</p>}
+                {state.errors?.name && (
+                    <p className="text-red-500 font-normal mt-1">
+                        {state.errors.name[0]}
+                    </p>
+                )}
             </label>
             <label
                 htmlFor="email"
@@ -35,7 +39,11 @@ export default function SignUpForm() {
                     placeholder="Enter email address"
                     className="bg-background w-full font-normal text-foreground p-2 mt-0.5 rounded-md"
                 />
-                {state.errors?.email && <p>{state.errors.email[0]}</p>}
+                {state.errors?.email && (
+                    <p className="text-red-500 font-normal mt-1">
+                        {state.errors.email[0]}
+                    </p>
+                )}
             </label>
             <label
                 htmlFor="password"
@@ -48,7 +56,11 @@ export default function SignUpForm() {
                     placeholder="Enter password"
                     className="bg-background w-full font-normal text-foreground rounded p-2 mt-0.5"
                 />
-                {state.errors?.password && <p>{state.errors.password[0]}</p>}
+                {state.errors?.password && (
+                    <p className="text-red-500 font-normal mt-1">
+                        {state.errors.password[0]}
+                    </p>
+                )}
                 <input
                     type="password"
                     name="confirmPassword"
@@ -56,7 +68,9 @@ export default function SignUpForm() {
                     className="bg-background w-full font-normal text-foreground rounded p-2 mt-2"
                 />
                 {state.errors?.confirmPassword && (
-                    <p>{state.errors.confirmPassword[0]}</p>
+                    <p className="text-red-500 font-normal mt-1">
+                        {state.errors.confirmPassword[0]}
+                    </p>
                 )}
             </label>
             <div className="mt-2">

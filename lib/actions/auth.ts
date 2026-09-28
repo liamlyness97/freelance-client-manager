@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/lib/auth/auth";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const registerSchema = z
@@ -20,7 +21,7 @@ export type RegisterState = {
     message?: string;
 };
 
-export async function register(
+export async function Register(
     _prevState: RegisterState,
     formData: FormData,
 ): Promise<RegisterState> {
@@ -49,4 +50,40 @@ export async function register(
     return { message: "Account created" };
 }
 
-export async function Login() {}
+const loginSchema = z.object({
+    email: z.email("Enter your email address"),
+    password: z.string().min(8, "Enter your password"),
+});
+
+export type LoginState = {
+    errors?: Partial<Record<keyof z.infer<typeof loginSchema>, string[]>>;
+    message?: string;
+};
+
+export async function Login(
+    _prevState: LoginState,
+    formData: FormData,
+): Promise<LoginState> {
+    const result = await loginSchema.safeParse(Object.fromEntries(formData));
+
+    if (!result.success) {
+        return { errors: z.flattenError(result.error).fieldErrors };
+    }
+
+    const { email, password } = result.data;
+
+    try {
+        const response = await auth.api.signInEmail({
+            body: {
+                email,
+                password,
+                rememberMe: true,
+            },
+            asResponse: true,
+        });
+    } catch {
+        return { message: "Error Logging in" };
+    }
+
+    redirect("/dashboard");
+}

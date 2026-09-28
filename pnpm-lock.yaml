@@ -11,9 +11,6 @@ importers:
       '@libsql/client':
         specifier: ^0.18.0
         version: 0.18.0
-      '@tursodatabase/database':
-        specifier: ^0.7.2
-        version: 0.7.2
       better-auth:
         specifier: ^1.7.6
         version: 1.7.6(drizzle-kit@1.0.0-rc.4)(drizzle-orm@1.0.0-rc.4(@libsql/client@0.18.0)(@tursodatabase/database-common@0.7.2)(@tursodatabase/database@0.7.2)(zod@4.6.5))(next@16.3.6(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -3562,7 +3559,8 @@ snapshots:
       postcss: 8.5.28
       tailwindcss: 4.3.3
 
-  '@tursodatabase/database-common@0.7.2': {}
+  '@tursodatabase/database-common@0.7.2':
+    optional: true
 
   '@tursodatabase/database-darwin-arm64@0.7.2':
     optional: true
@@ -3584,6 +3582,7 @@ snapshots:
       '@tursodatabase/database-linux-arm64-gnu': 0.7.2
       '@tursodatabase/database-linux-x64-gnu': 0.7.2
       '@tursodatabase/database-win32-x64-msvc': 0.7.2
+    optional: true
 
   '@tybys/wasm-util@0.10.4':
     dependencies:

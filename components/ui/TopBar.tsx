@@ -1,4 +1,10 @@
-export default function TopBar() {
+import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
+
+export default async function TopBar() {
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
     return (
         <div className="w-full bg-white flex justify-between items-center py-4 px-8 border-b border-borderColour">
             <div>
@@ -11,7 +17,7 @@ export default function TopBar() {
                 </form>
             </div>
             <div>
-                <p>Logged in user</p>
+                {session?.user.name && <p>Logged as: {session?.user.name}</p>}
             </div>
         </div>
     );
