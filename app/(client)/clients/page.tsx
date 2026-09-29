@@ -1,3 +1,4 @@
+import ClientRow from "@/components/clients/ClientRow";
 import PrimaryBtn from "@/components/ui/buttons/primary";
 import Modal from "@/components/ui/Modal";
 import CreateClientModal from "@/components/ui/modals/CreateClientModal";
@@ -45,25 +46,11 @@ export default async function Clients() {
                             <div className="col-span-1">Status</div>
                             <div className="col-span-1">Action</div>
                         </div>
-                        <div className="flex flex-col  overflow-y-scroll snap-both ">
+                        <div className="flex flex-col overflow-y-scroll snap-both ">
                             {clients &&
                                 clients.map((client) => (
-                                    <div
-                                        key={client.id}
-                                        className="grid grid-cols-6  border-b last:border-none border-lightNavy/25 py-4 px-4 snap-mandatory text-sm"
-                                    >
-                                        <div className="col-span-3 text-lightNavy font-semibold">
-                                            <p>{client.name}</p>
-                                        </div>
-                                        <div className="col-span-1">
-                                            <p>Company</p>
-                                        </div>
-                                        <div className="col-span-1">
-                                            Account Status
-                                        </div>
-                                        <div className="col-span-1">Action</div>
-                                    </div>
-                                ))}
+                                    <ClientRow key={client.id} name={client.name} company={client.company.companyName} email={client.email} />
+                              ))}
                         </div>
                     </div>
                 </div>

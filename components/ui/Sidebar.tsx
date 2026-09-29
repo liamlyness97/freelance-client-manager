@@ -23,12 +23,12 @@ export default async function Sidebar() {
                 <p className="font-bold text-2xl mt-1 text-lightNavy">Portal</p>
             </div>
             <div className="px-8 text-lg font-medium flex flex-col gap-4">
-                <p className="hover:text-lightNavy duration-200 cursor-pointer">
+                <Link href="/dashboard" className="hover:text-lightNavy duration-200 cursor-pointer">
                     Dashboard
-                </p>
-                <p className="hover:text-lightNavy duration-200 cursor-pointer">
+                </Link>
+                <Link href="/projects" className="hover:text-lightNavy duration-200 cursor-pointer">
                     Projects
-                </p>
+                </Link>
                 <p className="hover:text-lightNavy duration-200 cursor-pointer">
                     Tickets
                 </p>

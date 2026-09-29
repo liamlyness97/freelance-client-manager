@@ -86,9 +86,13 @@ export const verification = sqliteTable("verification", {
         .$onUpdate(() => new Date()),
 });
 
-export const userRelations = relations(user, ({ many }) => ({
+export const userRelations = relations(user, ({ one, many }) => ({
     sessions: many(session),
     accounts: many(account),
+    company: one(company, {
+        fields: [user.companyId],
+        references: [company.id]
+    })
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
