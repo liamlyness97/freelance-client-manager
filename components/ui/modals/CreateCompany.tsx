@@ -1,14 +1,25 @@
 "use client"
 import PrimaryBtn from "@/components/ui/buttons/primary";
 import { createCompany, CreateCompanyState } from "@/lib/actions/company";
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
+import { useModal } from "../Modal";
 
 const initialState: CreateCompanyState = {}
 
 export default function CreateCompanyModal() {
+    const { close } = useModal()
+    const formRef = useRef<HTMLFormElement>(null);
     const [state, formAction, isPending] = useActionState(createCompany, initialState);
+
+    useEffect(() => {
+        if (state.message) {
+            formRef.current?.reset()
+            close()
+        }
+    }, [state])
+
     return (
-      <div className="w-1/3 fixed mx-auto left-0 right-0 top-1/2 bg-white p-8 rounded-md -translate-y-1/2">
+      <div className="w-1/3 fixed mx-auto left-0  right-0 top-1/2 bg-white p-8 rounded-md -translate-y-1/2">
             <div className="flex flex-col gap-8">
                 <div className="border-b border-lightNavy/15 pb-4">
 
@@ -16,7 +27,7 @@ export default function CreateCompanyModal() {
                   Create Company
                 </h2>
                 </div>
-                <form className="flex flex-col gap-4" action={formAction}>
+                <form ref={formRef} className="flex flex-col gap-4" action={formAction}>
                   <label
                       htmlFor="company-name"
                       className="text-lightNavy"
@@ -35,6 +46,7 @@ export default function CreateCompanyModal() {
                         )}
                     </label>
                     <PrimaryBtn label="Create Company" type="submit" />
+                     {state.message && <p>{state.message}</p>}
                 </form>
           </div>
       </div>

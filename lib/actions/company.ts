@@ -4,6 +4,7 @@ import z from "zod"
 import { getCurrentUser } from "../auth/session";
 import { db } from "../db";
 import { company } from "../db/schema/companies";
+import { revalidatePath } from "next/cache";
 
 const createCompanySchema = z
     .object({
@@ -41,5 +42,7 @@ export async function createCompany(
           message: 'Error creating company'
       }
     }
+    revalidatePath('/clients')
+
     return { message: 'Company created' }
 }

@@ -19,3 +19,5 @@ export const company = sqliteTable("company", {
 export const companyRelations = relations(company, ({ many }) => ({
     user: many(user),
 }));
+
+export type Company = typeof company.$inferSelect;

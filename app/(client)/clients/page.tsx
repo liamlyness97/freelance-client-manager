@@ -1,13 +1,17 @@
 import PrimaryBtn from "@/components/ui/buttons/primary";
 import Modal from "@/components/ui/Modal";
+import CreateClientModal from "@/components/ui/modals/CreateClientModal";
 import CreateCompanyModal from "@/components/ui/modals/CreateCompany";
 import { requireAdmin } from "@/lib/auth/session";
 import { fetchAllClients } from "@/lib/data/clients";
+import { fetchAllCompanies } from "@/lib/data/companies";
 
 export default async function Clients() {
     await requireAdmin();
 
     const clients = await fetchAllClients();
+    const companies = await fetchAllCompanies();
+
     return (
         <div className="flex gap-8 flex-col">
             <div className="flex justify-between items-center">
@@ -17,7 +21,7 @@ export default async function Clients() {
                     </h1>
                 </div>
                 <div className="flex gap-4">
-                    <PrimaryBtn label="Create Client" />
+                    <PrimaryBtn label="Create Client" command="show-modal" commandfor="create-client" />
                     <PrimaryBtn
                         label="Create Company"
                         command="show-modal"
@@ -67,9 +71,32 @@ export default async function Clients() {
                     <h2 className="text-xl font-light text-lightNavy">
                         Companies
                     </h2>
+                    <div className="border border-lightNavy/15 rounded-lg">
+                        <div className="grid grid-cols-1 border-b font-semibold text-lightNavy px-4 border-lightNavy/15 py-4">
+                            <div>
+                                <p>Company Name</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col  overflow-y-scroll snap-both ">
+                            {companies && companies.map((company) => (
+
+                                <div
+                                    key={company.id}
+                              className="grid grid-cols-1  border-b last:border-none border-lightNavy/25 py-4 px-4 snap-mandatory text-sm"
+                          >
+                              <div className=" text-lightNavy font-semibold">
+                                  <p>{company.companyName}</p>
+                              </div>
+                          </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
                 <Modal id={"create-company"}>
                     <CreateCompanyModal />
+                </Modal>
+                <Modal id={"create-client"}>
+                    <CreateClientModal companies={companies ?? []} />
                 </Modal>
             </div>
         </div>

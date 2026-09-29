@@ -14,6 +14,9 @@ export const user = sqliteTable("user", {
     companyId: text("company_id").references(() => company.id, {
         onDelete: "cascade",
     }),
+    banned: integer("banned", { mode: "boolean" }),
+    banReason: text("banned_reason"),
+    banExpires: integer("ban_expires", { mode: "timestamp" }),
     createdAt: integer("created_at", { mode: "timestamp" })
         .notNull()
         .default(sql`(unixepoch())`),
@@ -39,6 +42,7 @@ export const session = sqliteTable("session", {
     userId: text("user_id")
         .notNull()
         .references(() => user.id, { onDelete: "cascade" }),
+    impersonatedBy: text("inpersonated_by")
 });
 
 export const account = sqliteTable("account", {
