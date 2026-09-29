@@ -1,4 +1,6 @@
 import PrimaryBtn from "@/components/ui/buttons/primary";
+import Modal from "@/components/ui/Modal";
+import CreateCompanyModal from "@/components/ui/modals/CreateCompany";
 import { requireAdmin } from "@/lib/auth/session";
 import { fetchAllClients } from "@/lib/data/clients";
 
@@ -16,7 +18,11 @@ export default async function Clients() {
                 </div>
                 <div className="flex gap-4">
                     <PrimaryBtn label="Create Client" />
-                    <PrimaryBtn label="Create Company" />
+                    <PrimaryBtn
+                        label="Create Company"
+                        command="show-modal"
+                        commandfor="create-company"
+                    />
                 </div>
             </div>
             <div className="flex justify-between gap-8">
@@ -62,6 +68,9 @@ export default async function Clients() {
                         Companies
                     </h2>
                 </div>
+                <Modal id={"create-company"}>
+                    <CreateCompanyModal />
+                </Modal>
             </div>
         </div>
     );

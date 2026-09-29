@@ -3,8 +3,9 @@ import { relations } from "drizzle-orm/_relations";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { user } from "./auth";
 
+
 export const company = sqliteTable("company", {
-    id: text("id").primaryKey(),
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
     companyName: text("company_name").notNull(),
     createdAt: integer("created_at", { mode: "timestamp" })
         .notNull()

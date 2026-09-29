@@ -1,7 +1,8 @@
+import { company } from "@/lib/db/schema/companies";
 import { sql } from "drizzle-orm";
 import { relations } from "drizzle-orm/_relations";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { company } from "./companies";
+
 
 export const user = sqliteTable("user", {
     id: text("id").primaryKey(),
