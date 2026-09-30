@@ -2,7 +2,7 @@ import { company } from "@/lib/db/schema/companies";
 import { sql } from "drizzle-orm";
 import { relations } from "drizzle-orm/_relations";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-
+import { tickets } from "./tickets";
 
 export const user = sqliteTable("user", {
     id: text("id").primaryKey(),
@@ -42,7 +42,7 @@ export const session = sqliteTable("session", {
     userId: text("user_id")
         .notNull()
         .references(() => user.id, { onDelete: "cascade" }),
-    impersonatedBy: text("inpersonated_by")
+    impersonatedBy: text("inpersonated_by"),
 });
 
 export const account = sqliteTable("account", {
@@ -91,8 +91,9 @@ export const userRelations = relations(user, ({ one, many }) => ({
     accounts: many(account),
     company: one(company, {
         fields: [user.companyId],
-        references: [company.id]
-    })
+        references: [company.id],
+    }),
+    tickets: many(tickets),
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
