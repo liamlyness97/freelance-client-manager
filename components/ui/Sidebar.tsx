@@ -29,9 +29,9 @@ export default async function Sidebar() {
                 <Link href="/projects" className="hover:text-lightNavy duration-200 cursor-pointer">
                     Projects
                 </Link>
-                <p className="hover:text-lightNavy duration-200 cursor-pointer">
+                <Link href="/tickets" className="hover:text-lightNavy duration-200 cursor-pointer">
                     Tickets
-                </p>
+                </Link>
                 <p className="hover:text-lightNavy duration-200 cursor-pointer">
                     Invoices
                 </p>

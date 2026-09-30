@@ -3,6 +3,7 @@ import PrimaryBtn from "@/components/ui/buttons/primary";
 import Modal from "@/components/ui/Modal";
 import CreateClientModal from "@/components/ui/modals/CreateClientModal";
 import CreateCompanyModal from "@/components/ui/modals/CreateCompany";
+import EditCompany from "@/components/ui/modals/EditCompany";
 import { requireAdmin } from "@/lib/auth/session";
 import { fetchAllClients } from "@/lib/data/clients";
 import { fetchAllCompanies } from "@/lib/data/companies";
@@ -22,7 +23,11 @@ export default async function Clients() {
                     </h1>
                 </div>
                 <div className="flex gap-4">
-                    <PrimaryBtn label="Create Client" command="show-modal" commandfor="create-client" />
+                    <PrimaryBtn
+                        label="Create Client"
+                        command="show-modal"
+                        commandfor="create-client"
+                    />
                     <PrimaryBtn
                         label="Create Company"
                         command="show-modal"
@@ -49,8 +54,13 @@ export default async function Clients() {
                         <div className="flex flex-col overflow-y-scroll snap-both ">
                             {clients &&
                                 clients.map((client) => (
-                                    <ClientRow key={client.id} name={client.name} company={client.company.companyName} email={client.email} />
-                              ))}
+                                    <ClientRow
+                                        key={client.id}
+                                        name={client.name}
+                                        company={client.company.companyName}
+                                        email={client.email}
+                                    />
+                                ))}
                         </div>
                     </div>
                 </div>
@@ -65,17 +75,36 @@ export default async function Clients() {
                             </div>
                         </div>
                         <div className="flex flex-col  overflow-y-scroll snap-both ">
-                            {companies && companies.map((company) => (
-
-                                <div
-                                    key={company.id}
-                              className="grid grid-cols-1  border-b last:border-none border-lightNavy/25 py-4 px-4 snap-mandatory text-sm"
-                          >
-                              <div className=" text-lightNavy font-semibold">
-                                  <p>{company.companyName}</p>
-                              </div>
-                          </div>
-                            ))}
+                            {companies &&
+                                companies.map((company) => (
+                                    <div
+                                        key={company.id}
+                                        className="grid grid-cols-1  border-b last:border-none border-lightNavy/25 py-4 px-4 snap-mandatory text-sm"
+                                    >
+                                        <div className=" text-lightNavy flex justify-between items-center font-semibold">
+                                            <div>
+                                                <p>{company.companyName}</p>
+                                            </div>
+                                            <button
+                                                command="show-modal"
+                                                commandfor={`edit-company-${company.id}`}
+                                                className="flex justify-end items-center gap-0.5 cursor-pointer h-full w-fit"
+                                            >
+                                                <div className="w-1 h-1 rounded-full bg-lightNavy"></div>
+                                                <div className="w-1 h-1 rounded-full bg-lightNavy"></div>
+                                                <div className="w-1 h-1 rounded-full bg-lightNavy"></div>
+                                            </button>
+                                        </div>
+                                        <Modal
+                                            id={`edit-company-${company.id}`}
+                                        >
+                                            <EditCompany
+                                                key={company.id}
+                                                company={company}
+                                            />
+                                        </Modal>
+                                    </div>
+                                ))}
                         </div>
                     </div>
                 </div>
