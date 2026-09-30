@@ -1,7 +1,11 @@
+import TicketsCard from "@/components/tickets/TicketsCard";
 import PrimaryBtn from "@/components/ui/buttons/primary";
+import { fetchAllTickets } from "@/lib/data/tickets";
 import Link from "next/link";
 
-export default function Tickets() {
+export default async function Tickets() {
+    const tickets = await fetchAllTickets();
+
     return (
         <div className="flex gap-8 flex-col">
             <div className="flex justify-between items-center">
@@ -25,30 +29,18 @@ export default function Tickets() {
                     <div className="col-span-1">Updated</div>
                     <div className="col-span-1">Created at</div>
                 </div>
-                <div className="grid grid-cols-12 w-full p-8 bg-white rounded-lg border border-lightNavy/15 flex-col gap-8 ">
-                    <div className="col-span-8 flex flex-col gap-2 w-3/4">
-                        <p className="text-lightNavy text-2xl">
-                            This is the ticket title
-                        </p>
-                        <p className="text-sm">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing
-                            elit. Esse, voluptates nemo nam odio consectetur
-                            consequatur quaerat animi maxime ratione vel
-                            inventore repellat aspernatur porro voluptas dolores
-                            earum optio vero natus.
-                        </p>
-                    </div>
-                    <div className="col-span-1 items-center flex ">
-                        <p>Pending</p>
-                    </div>
-                    <div className="col-span-1 items-center flex">
-                        <p>High</p>
-                    </div>
-                    <div className="col-span-1 items-center flex">1h ago</div>
-                    <div className="col-span-1 items-center flex">
-                        2 days ago
-                    </div>
-                </div>
+                {tickets &&
+                    tickets.map((ticket) => (
+                        <TicketsCard
+                            key={ticket.id}
+                            title={ticket.title}
+                            content={ticket.content ?? ""}
+                            status={ticket.status}
+                            priority={ticket.priority}
+                            createdAt={ticket.createdAt}
+                            updatedAt={ticket.updatedAt}
+                        />
+                    ))}
             </div>
         </div>
     );

@@ -30,6 +30,11 @@ export default function CreateTicketForm({
                             placeholder="Enter ticket title"
                             className="bg-background w-full font-normal text-foreground p-2 mt-2 rounded-md"
                         />
+                        {state.errors?.title && (
+                            <p className="text-red-500 font-normal mt-1">
+                                {state.errors.title[0]}
+                            </p>
+                        )}
                     </label>
                 </div>
                 <div className="w-full p-8 bg-white rounded-lg border border-lightNavy/15 flex flex-col gap-2  font-semibold text-lightNavy">
@@ -41,6 +46,11 @@ export default function CreateTicketForm({
                             placeholder="Enter ticket details"
                             className="bg-background w-full font-normal text-foreground p-2 mt-2 rounded-md"
                         />
+                        {state.errors?.body && (
+                            <p className="text-red-500 font-normal mt-1">
+                                {state.errors.body[0]}
+                            </p>
+                        )}
                     </label>
                     <div>
                         <PrimaryBtn type="submit" label="Create Ticket" />
@@ -61,6 +71,11 @@ export default function CreateTicketForm({
                             <option value="high">High</option>
                             <option value="critical">Critical</option>
                         </select>
+                        {state.errors?.priority && (
+                            <p className="text-red-500 font-normal mt-1">
+                                {state.errors.priority[0]}
+                            </p>
+                        )}
                     </label>
                 </div>
                 <div className="w-full p-8 bg-white rounded-lg border border-lightNavy/15 flex flex-col gap-2  font-semibold text-lightNavy">
