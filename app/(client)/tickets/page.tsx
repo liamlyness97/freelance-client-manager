@@ -32,6 +32,7 @@ export default async function Tickets() {
                 {tickets &&
                     tickets.map((ticket) => (
                         <TicketsCard
+                            id={ticket.id}
                             key={ticket.id}
                             title={ticket.title}
                             content={ticket.content ?? ""}

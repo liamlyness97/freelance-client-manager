@@ -46,3 +46,5 @@ export const ticketRelations = relations(tickets, ({ one }) => ({
     }),
     user: one(user, { fields: [tickets.clientId], references: [user.id] }),
 }));
+
+export type SelectTicket = typeof tickets.$inferSelect;
