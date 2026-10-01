@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 export type ProjectCard = {
+    id: string;
     title: string;
     snippet?: string;
     status: string;
@@ -7,6 +10,7 @@ export type ProjectCard = {
 };
 
 export default function ProjectCard({
+    id,
     title,
     snippet,
     status,
@@ -14,7 +18,10 @@ export default function ProjectCard({
     dueDate,
 }: ProjectCard) {
     return (
-        <div className="w-full flex flex-col bg-white p-8 gap-4 rounded-md border border-lightNavy/15">
+        <Link
+            href={`/projects/${id}`}
+            className="w-full flex flex-col bg-white p-8 gap-4 rounded-md border border-lightNavy/15 hover:drop-shadow-sm hover:-translate-y-0.5 cursor-pointer duration-300"
+        >
             <div className="flex justify-between">
                 {title && (
                     <p className="text-xl font-semibold text-lightNavy">
@@ -23,7 +30,7 @@ export default function ProjectCard({
                 )}
                 {status && (
                     <div className="px-4 flex items-center py-1 bg-lightNavy text-sm rounded-full text-white">
-                        <p>{status}</p>
+                        <p className="capitalize">{status}</p>
                     </div>
                 )}
             </div>
@@ -42,6 +49,6 @@ export default function ProjectCard({
                     </div>
                 )}
             </div>
-        </div>
+        </Link>
     );
 }

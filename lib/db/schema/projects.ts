@@ -19,7 +19,7 @@ export const projectsTable = sqliteTable("projects", {
     status: text("status", { enum: projectStatusEnum })
         .notNull()
         .default("pending"),
-    descrition: text("description"),
+    description: text("description"),
     companyId: text("company_id")
         .notNull()
         .references(() => company.id, {
@@ -28,6 +28,7 @@ export const projectsTable = sqliteTable("projects", {
     stakeholder: text("stakeholder")
         .notNull()
         .references(() => user.id, { onDelete: "cascade" }),
+    userId: text("userId").references(() => user.id, { onDelete: "cascade" }),
     createdAt: integer("created_at", { mode: "timestamp" })
         .notNull()
         .default(sql`(unixepoch())`),

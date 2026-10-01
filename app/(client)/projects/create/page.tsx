@@ -1,8 +1,10 @@
 import CreateProjectForm from "@/components/ui/forms/CreateProjectForm";
+import { fetchCurrentUser } from "@/lib/auth/session";
 import { fetchAllCompanies } from "@/lib/data/companies";
 
 export default async function CreateProject() {
     const companies = await fetchAllCompanies();
+    const currentUser = await fetchCurrentUser();
 
     return (
         <div className="flex gap-8 flex-col">
@@ -13,7 +15,10 @@ export default async function CreateProject() {
                     </h1>
                 </div>
             </div>
-            <CreateProjectForm companies={companies} />
+            <CreateProjectForm
+                companies={companies}
+                userId={currentUser.user.id}
+            />
         </div>
     );
 }

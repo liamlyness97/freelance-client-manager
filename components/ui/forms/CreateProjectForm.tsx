@@ -1,8 +1,9 @@
 "use client";
 import PrimaryBtn from "@/components/ui/buttons/primary";
+import { createProject, CreateProjectState } from "@/lib/actions/projects";
 import { fetchCompaniesClients } from "@/lib/data/companies";
 import { SelectUser } from "@/lib/db/schema/auth";
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 type Companies =
     | {
@@ -13,11 +14,20 @@ type Companies =
       }[]
     | undefined;
 
+const initialState: CreateProjectState = {};
+
 export default function CreateProjectForm({
     companies,
+    userId,
 }: {
     companies: Companies;
+    userId: string;
 }) {
+    const [state, formAction, isPending] = useActionState(
+        createProject,
+        initialState,
+    );
+
     const [clients, setClients] = useState<SelectUser[]>([]);
     const [selectedCompany, setSelectedCompany] = useState("");
 
@@ -39,7 +49,8 @@ export default function CreateProjectForm({
     }, [selectedCompany]);
 
     return (
-        <form className="flex justify-baseline gap-8">
+        <form action={formAction} className="flex justify-baseline gap-8">
+            <input type="hidden" name="userId" value={userId} />
             <div className="flex flex-col gap-4 w-full">
                 <div className="bg-white rounded-lg p-8 w-full border border-lightNavy/15 flex flex-col gap-2">
                     <h2 className="text-2xl font-semibold text-lightNavy">
@@ -76,7 +87,7 @@ export default function CreateProjectForm({
                     <h2 className="text-2xl">Status</h2>
                     <label htmlFor="status">
                         <select
-                            name="priority"
+                            name="status"
                             className="bg-background w-full font-normal text-foreground p-2 mt-2 rounded-md"
                         >
                             <option value="null">Select a status</option>
@@ -88,9 +99,9 @@ export default function CreateProjectForm({
                 </div>
                 <div className="w-full p-8 bg-white rounded-lg border border-lightNavy/15 flex flex-col gap-2  font-semibold text-lightNavy">
                     <h2 className="text-2xl">Company</h2>
-                    <label htmlFor="company">
+                    <label htmlFor="companyId">
                         <select
-                            name="company"
+                            name="companyId"
                             className="bg-background w-full font-normal text-foreground p-2 mt-2 rounded-md"
                             onChange={(event) => {
                                 setSelectedCompany(event.target.value);
@@ -108,9 +119,9 @@ export default function CreateProjectForm({
                 {selectedCompany !== "" && clients.length !== 0 && (
                     <div className="w-full p-8 bg-white rounded-lg border border-lightNavy/15 flex flex-col gap-2  font-semibold text-lightNavy">
                         <h2 className="text-2xl">Stakeholder</h2>
-                        <label htmlFor="company">
+                        <label htmlFor="stakeholder">
                             <select
-                                name="company"
+                                name="stakeholder"
                                 className="bg-background w-full font-normal text-foreground p-2 mt-2 rounded-md"
                             >
                                 <option value="">

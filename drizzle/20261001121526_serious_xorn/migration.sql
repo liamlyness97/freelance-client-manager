@@ -1,0 +1,1 @@
+ALTER TABLE `projects` ADD `userId` text REFERENCES user(id) ON DELETE CASCADE;

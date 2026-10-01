@@ -1,10 +1,12 @@
 import ProjectCard from "@/components/projects/ProjectCard";
 import PrimaryBtn from "@/components/ui/buttons/primary";
 import { fetchCurrentUser } from "@/lib/auth/session";
+import { fetchAllProjects } from "@/lib/data/projects";
 import Link from "next/link";
 
 export default async function Projects() {
     const currentUser = await fetchCurrentUser();
+    const allProjects = await fetchAllProjects();
     return (
         <div className="flex gap-8 flex-col">
             <div className="flex justify-between items-center">
@@ -22,15 +24,18 @@ export default async function Projects() {
                 )}
             </div>
             <div className="grid grid-cols-3">
-                <ProjectCard
-                    title="Random Project"
-                    status="Pending"
-                    dueDate="13/10/2026"
-                    stakeholder="Liam Lyness"
-                    snippet="Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Blanditiis enim modi sed cum dolore, voluptate laudantium
-                quasi harum velit corrupti"
-                />
+                {allProjects &&
+                    allProjects.map((project) => (
+                        <ProjectCard
+                            key={project.id}
+                            id={project.id}
+                            title={project.title}
+                            status={project.status}
+                            dueDate="13/10/2026"
+                            stakeholder="Liam Lyness"
+                            snippet={project?.description ?? ""}
+                        />
+                    ))}
             </div>
         </div>
     );
