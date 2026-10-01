@@ -10,7 +10,7 @@ export const fetchAllClients = async () => {
             name: user.name,
             role: user.role,
             company: company,
-            email: user.email
+            email: user.email,
         })
         .from(user)
         .where(eq(user.role, "client"))

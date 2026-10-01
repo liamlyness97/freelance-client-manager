@@ -23,4 +23,4 @@ export const companyRelations = relations(company, ({ many }) => ({
     tickets: many(tickets),
 }));
 
-export type Company = typeof company.$inferSelect;
+export type SelectCompany = typeof company.$inferSelect;

@@ -25,6 +25,7 @@ export async function fetchCurrentUser() {
               .select()
               .from(user)
               .where(eq(user.id, session?.user.id ?? ""))
+              .limit(1)
               .innerJoin(company, eq(user.companyId, company.id))
         : [];
 

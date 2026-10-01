@@ -60,7 +60,7 @@ export default function CreateTicketForm({
             <div className="flex flex-col gap-4 w-1/3 shrink-0">
                 <div className="w-full p-8 bg-white rounded-lg border border-lightNavy/15 flex flex-col gap-2  font-semibold text-lightNavy">
                     <h2 className="text-2xl">Priority</h2>
-                    <label htmlFor="title">
+                    <label htmlFor="status">
                         <select
                             name="priority"
                             className="bg-background w-full font-normal text-foreground p-2 mt-2 rounded-md"

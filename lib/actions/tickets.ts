@@ -5,7 +5,6 @@ import { priorityEnum, tickets } from "@/lib/db/schema/tickets";
 import { getCurrentUser } from "../auth/session";
 import { db } from "../db";
 import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
 
 const createTicketSchema = z.object({
     title: z
