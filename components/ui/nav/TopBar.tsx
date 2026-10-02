@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
+import MobileSidebar from "./MobileSidebar";
 
 export default async function TopBar() {
   const session = await auth.api.getSession({
@@ -31,11 +32,7 @@ export default async function TopBar() {
           )}
         </div>
       </div>
-      <div className="flex flex-col gap-1 lg:hidden size-10 rounded-md items-center justify-center bg-lightNavy">
-        <div className="h-0.5 w-4 bg-white"></div>
-        <div className="h-0.5 w-4 bg-white"></div>
-        <div className="h-0.5 w-4 bg-white"></div>
-      </div>
+      <MobileSidebar />
     </div>
   );
 }

@@ -1,9 +1,17 @@
+import LogoutButton from "@/components/auth/LogoutButton";
 import MobileSidebarInner from "./MobileSidebarInner";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth/auth";
 
-export default function MobileSidebar() {
+export default async function MobileSidebar() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   return (
-    <div className="w-full fixed top-0 left-0 z-50 bg-white h-screen shrink-0 flex flex-col gap-12 border-r border-lightNavy/15">
-      <MobileSidebarInner />
-    </div>
+    <>
+      <MobileSidebarInner session={session}>
+        <LogoutButton />
+      </MobileSidebarInner>
+    </>
   );
 }
