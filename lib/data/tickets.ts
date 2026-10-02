@@ -1,7 +1,8 @@
 "use server";
 import { db } from "@/lib/db";
-import { SelectTicket, tickets } from "../db/schema/tickets";
+import { SelectTicket, ticketMessages, tickets } from "../db/schema/tickets";
 import { eq } from "drizzle-orm";
+import { user } from "../db/schema/auth";
 
 export const fetchAllTickets = async () => {
     const ticketsRes = await db.select().from(tickets);
@@ -21,3 +22,11 @@ export const fetchTicket = async (
 
     return ticket;
 };
+
+export const fetchTicketMessages = async (ticketId: string) => {
+    const messages = await db.select().from(ticketMessages).where(eq(ticketMessages.ticketId, ticketId)).innerJoin(user, eq(user.id, ticketMessages.userId))
+
+    if (!messages) return;
+
+    return messages
+}

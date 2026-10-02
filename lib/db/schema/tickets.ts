@@ -43,7 +43,21 @@ export const tickets = sqliteTable("tickets", {
         .$onUpdate(() => new Date()),
 });
 
-export const ticketRelations = relations(tickets, ({ one }) => ({
+export const ticketMessages = sqliteTable('ticket_messages', {
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+    message: text("message").notNull(),
+    ticketId: text("ticket_id").notNull().references(() => tickets.id, {onDelete: 'cascade'}),
+    userId: text("user_id").notNull().references(() => user.id, {onDelete: 'cascade'}),
+    createdAt: integer("created_at", { mode: "timestamp" })
+        .notNull()
+        .default(sql`(unixepoch())`),
+    updatedAt: integer("updated_at", { mode: "timestamp" })
+        .notNull()
+        .default(sql`(unixepoch())`)
+        .$onUpdate(() => new Date()),
+})
+
+export const ticketRelations = relations(tickets, ({ one, many }) => ({
     company: one(company, {
         fields: [tickets.companyId],
         references: [company.id],
@@ -53,6 +67,18 @@ export const ticketRelations = relations(tickets, ({ one }) => ({
         fields: [tickets.projectId],
         references: [projectsTable.id],
     }),
+    ticketMessages: many(ticketMessages)
 }));
+
+export const ticketMessagesRelations = relations(ticketMessages, ({ one }) => ({
+    user: one(user, {
+        fields: [ticketMessages.userId],
+        references: [user.id]
+    }),
+    tickets: one(tickets, {
+        fields: [ticketMessages.ticketId],
+        references: [tickets.id]
+    })
+}))
 
 export type SelectTicket = typeof tickets.$inferSelect;

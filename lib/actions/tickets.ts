@@ -1,10 +1,12 @@
 "use server";
 
 import z from "zod";
-import { priorityEnum, tickets } from "@/lib/db/schema/tickets";
+import { priorityEnum, ticketMessages, tickets } from "@/lib/db/schema/tickets";
 import { getCurrentUser } from "../auth/session";
 import { db } from "../db";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 const createTicketSchema = z.object({
     title: z
@@ -24,12 +26,23 @@ const createTicketSchema = z.object({
     priority: z.enum(priorityEnum),
 });
 
+const addTicketMessageSchema = z.object({
+    message: z.string().trim().min(1, "A message must be entered"),
+    userId: z.string().trim().min(1, "User must be logged in"),
+    ticketId: z.string().trim().min(1, "Message must be for a valid Ticket")
+})
+
 export type CreateTicketState = {
     errors?: Partial<
         Record<keyof z.infer<typeof createTicketSchema>, string[]>
     >;
     message?: string;
 };
+
+export type AddTicketMessageState = {
+    errors?: Partial<Record<keyof z.infer<typeof addTicketMessageSchema>, string[]>>;
+    message?: string;
+}
 
 export async function createTicket(
     _prevState: CreateTicketState,
@@ -69,4 +82,36 @@ export async function createTicket(
     return {
         message: "Ticket Created",
     };
+}
+
+export async function addTicketMessage(_prevState: AddTicketMessageState, formData: FormData): Promise<AddTicketMessageState> {
+    const result = addTicketMessageSchema.safeParse(Object.fromEntries(formData));
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        };
+    }
+
+    const { message, userId, ticketId } = result.data;
+
+    const [ticket] = await db.select().from(tickets).where(eq(tickets.id, ticketId)).limit(1);
+
+    // TODO: Catch invalid ticketId & userId
+
+    const [newMessage] = await db.insert(ticketMessages).values({
+        message,
+        userId,
+        ticketId
+    }).returning({ id: ticketMessages.id })
+
+    if (!newMessage.id) {
+        throw new Error("Failed to create ticket message")
+    }
+
+    revalidatePath(`/tickets/${ticketId}`)
+
+    return {
+        message: 'Message added'
+    }
 }
