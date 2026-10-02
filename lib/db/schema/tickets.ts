@@ -3,6 +3,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { user } from "./auth";
 import { company } from "./companies";
 import { relations } from "drizzle-orm/_relations";
+import { projectsTable } from "./projects";
 
 export const statusEnum = [
     "pending",
@@ -30,6 +31,9 @@ export const tickets = sqliteTable("tickets", {
     companyId: text("company_id").references(() => company.id, {
         onDelete: "cascade",
     }),
+    projectId: text("project_id").references(() => projectsTable.id, {
+        onDelete: "cascade",
+    }),
     createdAt: integer("created_at", { mode: "timestamp" })
         .notNull()
         .default(sql`(unixepoch())`),
@@ -45,6 +49,10 @@ export const ticketRelations = relations(tickets, ({ one }) => ({
         references: [company.id],
     }),
     user: one(user, { fields: [tickets.clientId], references: [user.id] }),
+    projectsTable: one(projectsTable, {
+        fields: [tickets.projectId],
+        references: [projectsTable.id],
+    }),
 }));
 
 export type SelectTicket = typeof tickets.$inferSelect;

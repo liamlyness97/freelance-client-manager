@@ -23,7 +23,7 @@ export default async function Projects() {
                     </div>
                 )}
             </div>
-            <div className="grid grid-cols-3">
+            <div className="grid grid-cols-3 gap-8">
                 {allProjects &&
                     allProjects.map((project) => (
                         <ProjectCard

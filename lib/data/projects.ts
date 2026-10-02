@@ -14,6 +14,17 @@ export const fetchAllProjects = async () => {
     return projects;
 };
 
+export const fetchClientsProjects = async (clientCompanyId: string) => {
+    const projects = await db
+        .select()
+        .from(projectsTable)
+        .where(eq(projectsTable.companyId, clientCompanyId));
+
+    if (!projects) return;
+
+    return projects;
+};
+
 export const fetchProject = async (id: string) => {
     if (!id) return;
 

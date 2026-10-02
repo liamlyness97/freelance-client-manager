@@ -9,7 +9,7 @@ export default async function Sidebar() {
         headers: await headers(),
     });
     return (
-        <div className="w-1/6 bg-white h-screen shrink-0 flex flex-col gap-12 border-r border-lightNavy/15">
+        <div className="hidden w-1/6 bg-white h-screen shrink-0 lg:flex flex-col gap-12 border-r border-lightNavy/15">
             {/* TODO: Revisit this */}
             <div className="py-6 px-8 flex items-center gap-4">
                 <div className="w-8 h-8  object-contain">
@@ -23,13 +23,22 @@ export default async function Sidebar() {
                 <p className="font-bold text-2xl mt-1 text-lightNavy">Portal</p>
             </div>
             <div className="px-8 text-lg font-medium flex flex-col gap-4">
-                <Link href="/dashboard" className="hover:text-lightNavy duration-200 cursor-pointer">
+                <Link
+                    href="/dashboard"
+                    className="hover:text-lightNavy duration-200 cursor-pointer"
+                >
                     Dashboard
                 </Link>
-                <Link href="/projects" className="hover:text-lightNavy duration-200 cursor-pointer">
+                <Link
+                    href="/projects"
+                    className="hover:text-lightNavy duration-200 cursor-pointer"
+                >
                     Projects
                 </Link>
-                <Link href="/tickets" className="hover:text-lightNavy duration-200 cursor-pointer">
+                <Link
+                    href="/tickets"
+                    className="hover:text-lightNavy duration-200 cursor-pointer"
+                >
                     Tickets
                 </Link>
                 <p className="hover:text-lightNavy duration-200 cursor-pointer">

@@ -9,8 +9,6 @@ export default async function Project({
 
     const project = await fetchProject(id);
 
-    console.log(project);
-
     return (
         <div className="flex gap-8 flex-col">
             <div>

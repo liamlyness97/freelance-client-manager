@@ -1,3 +1,4 @@
+"use server";
 import { db } from "@/lib/db";
 import { SelectTicket, tickets } from "../db/schema/tickets";
 import { eq } from "drizzle-orm";

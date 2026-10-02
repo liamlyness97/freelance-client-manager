@@ -20,6 +20,7 @@ const createTicketSchema = z.object({
         .string()
         .trim()
         .min(1, "Ticket must include an assignable company"),
+    projectId: z.string().trim().min(1, "Assign a project to the ticket"),
     priority: z.enum(priorityEnum),
 });
 
@@ -45,7 +46,8 @@ export async function createTicket(
         };
     }
 
-    const { title, body, priority, clientId, companyId } = result.data;
+    const { title, body, priority, clientId, companyId, projectId } =
+        result.data;
 
     const [ticket] = await db
         .insert(tickets)
@@ -55,6 +57,7 @@ export async function createTicket(
             priority: priority,
             clientId: clientId,
             companyId: companyId,
+            projectId: projectId,
             status: "pending",
         })
         .returning({ id: tickets.id });
